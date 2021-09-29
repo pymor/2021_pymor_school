@@ -1,0 +1,162 @@
+\documentclass[%
+% aspectratio=1610
+% aspectratio=169
+% aspectratio=149
+% aspectratio=141
+% aspectratio=54
+% aspectratio=32
+]{beamer}
+
+%\usetheme{pymor}                      % use this for section-based progress bar
+\usetheme[globalbar, no-section-outline]{pymor}          % use this for global  progress bar
+%\usetheme[staticbar]{pymor}          % use this for fixed "progress" bar
+%\usetheme[no-section-outline]{pymor} % use to suppress automatic outline slides
+                                      % this option can be combined with the
+                                      % above
+
+\usepackage{booktabs}
+% \usepackage[scale=2]{ccicons}
+\usepackage{minted}
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+
+\usepackage{tikz}
+\usetikzlibrary{calc,positioning}
+
+\usepackage{algorithm2e}
+
+\usemintedstyle{trac}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=.
+}
+
+\title[pyMOR Contribution Workflow]{pyMOR Contribution Workflow}
+\subtitle{}
+
+\date{October 8, 2021 -- Morning session}
+\author[Linus Balicki, Hendrik  Kleikamp]{Linus Balicki, Hendrik Kleikamp}
+\institute{Institute for Analysis and Numerics - WWU Münster}
+
+\begin{document}
+
+\maketitle
+{%
+  \setbeamercolor{background canvas}{bg=pymor_blue}
+  \setbeamertemplate{frametitle}[plain]
+  \setbeamercolor{subsection in toc}{fg=PaleGray, bg=pymor_blue}
+  \setbeamertemplate{subsection in toc}
+  {\leavevmode\leftskip=2em$\bullet$\hskip1em\inserttocsubsection\par}
+ 
+%\begin{frame}[plain]{Outline}
+%  \LARGE\tableofcontents
+%\end{frame}
+}
+
+\definecolor{green}{HTML}{31a031}
+\definecolor{red}{HTML}{a03131}
+
+\def\vdist{1.45cm}
+\def\hdist{2.8cm}
+
+\def\customgray{lightgray}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{pyMOR GitHub repository}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Communicating about pyMOR on GitHub}
+
+	\begin{itemize}
+		\item \structure{Discussions}
+			\begin{itemize}
+				\item How to?
+				\item Should I open a PR to add this?
+				\item Why is my code not working as expected?
+				\item Feature requests
+			\end{itemize}
+		\item \structure{Issues}
+			\begin{itemize}
+				\item Bug reports
+				\item Things that are missing
+				\item Reminders for things that should be done
+			\end{itemize}
+		\item \structure{Pull requests}
+			\begin{itemize}
+				\item New features
+				\item Bug fixes
+				\item Changes to existing functionality
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Contribution workflow}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Contributing to pyMOR in 10 steps}
+
+	\begin{enumerate}
+		\item Fork the pyMOR repository.
+		\item Checkout a new branch in your fork.
+		\item Create a virtual environment (\mintinline{shell}{python3 -m virtualenv venv}).
+		\item Install pyMOR in editable mode (\mintinline{shell}{pip install -e .[full]}).
+		\item ***Add your code here (now)***
+		\item Add tests for your code (maybe also a demo or even a tutorial) and run the tests locally (\mintinline{shell}{make docker_test} or \mintinline{shell}{make test}).
+		\item Open a pull request on GitHub.
+		\item Add a label (pr:change, pr:deprecation, pr:fix, pr:new-feature, pr:removal).
+		\item Ask for reviews.
+		\item Make sure that the CI pipeline passes (see next slide).
+	\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Continuous Testing / Integration Setup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Some of the components of pyMOR's CI pipeline}
+	
+	\begin{itemize}
+		\item Linter checks.
+		\item Checks for autosquashing of commits, PR labels, and merge conflicts.
+		\item Tests in \mintinline{shell}{src/pymortests/} and demos in \mintinline{shell}{src/pymordemos/} are executed in several different settings.
+		\item Tutorials in \mintinline{shell}{docs/source/} are used as additional tests.
+		\item Documentation (available for inspection under \href{https://docs.pymor.org/list.html}{https://docs.pymor.org/list.html}) and wheels are built.
+		\item Installation from different sources (wheels, from source, docker) is performed.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Important!}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Important things to remember when contributing}
+
+	\begin{itemize}
+		\item Format your code according to \href{https://www.python.org/dev/peps/pep-0008/}{PEP8} (\href{https://flake8.pycqa.org/en/latest/}{flake8} and \href{https://pre-commit.com/}{pre-commit} hooks can help you).
+		\item Document your code properly (to keep the good quality of our \href{https://docs.pymor.org/latest/autoapi/index.html}{API Reference}).
+		\item Write useful commit messages, give keywords if possible, for instance \mintinline{text}{[parameters] fix Mu.to_numpy for empty Mu}
+		\item Provide a meaningful description for your pull request.
+		\item Make sure that all tests pass (otherwise your pull request cannot be merged).
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Useful links}
+	
+	\begin{itemize}
+		\item \structure{pyMOR homepage:} \href{https://pymor.org/}{https://pymor.org/}
+		\item \structure{pyMOR documentation:} \href{https://docs.pymor.org/latest/index.html}{https://docs.pymor.org/latest/index.html}
+		\item \structure{Developer documentation:} \href{https://docs.pymor.org/latest/developer_docs.html}{https://docs.pymor.org/latest/developer\_docs.html}
+		\item \structure{GitHub repository:} \href{https://github.com/pymor/pymor}{https://github.com/pymor/pymor}
+		\item \structure{Discussions:} \href{https://github.com/pymor/pymor/discussions}{https://github.com/pymor/pymor/discussions}
+		\item \structure{Issues:} \href{https://github.com/pymor/pymor/issues}{https://github.com/pymor/pymor/issues}
+		\item \structure{Pull requests:} \href{https://github.com/pymor/pymor/pulls}{https://github.com/pymor/pymor/pulls}
+	\end{itemize}
+\end{frame}
+\plain{Are there questions?}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
