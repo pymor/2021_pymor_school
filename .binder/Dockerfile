@@ -13,7 +13,9 @@ RUN userdel -r $(getent passwd "${NB_UID}" | cut -d: -f1) \
     --gecos "Default user" \
     --uid ${NB_UID} \
     ${NB_USER} \
- && pip uninstall pythreejs -y
+ && pip uninstall pythreejs -y \
+ && pip install bash-kernel \
+ && python -m bash_kernel.install
 
 COPY . ${HOME}
 USER root
